@@ -95,14 +95,14 @@ func main() {
 	statusWidget.BorderStyle.Bg = ui.ColorBlue
 	statusWidget.BorderStyle.Modifier = ui.ModifierBold
 
-	maxLength := utils.GetMaxLengthLineInGitRepositoryOutput(menuItems) + 2
+	maxLength := utils.GetMaxLengthLineInGitRepositoryOutput(menuItems) + 1
 
 	list := widgets.NewList()
 	list.Title = "Repository"
 	list.Rows = menuItems
 	list.TextStyle = ui.NewStyle(ui.ColorYellow)
 	list.WrapText = false
-	list.SetRect(0, 3, maxLength+2, 15)
+	list.SetRect(0, 3, maxLength+2, len(menuItems)+5)
 
 	ui.Render(statusWidget, list)
 
