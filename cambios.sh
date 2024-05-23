@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly current_dir=$(pwd)
+readonly current_dir=$( cd "$(dirname "$0")" ; pwd -P )
 readonly command_output_file="/tmp/cmd.out"
 readonly cambios_binary="${current_dir}/cambios"
 readonly error_cambios_binary_does_not_exist=80
