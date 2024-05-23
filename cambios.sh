@@ -20,7 +20,7 @@ process_command_file() {
             )
             ;;
         "clipboard")
-            echo "${file_path}" | pbcopy
+            echo -n "${file_path}" | pbcopy
             ;;
     esac
 }
@@ -43,11 +43,9 @@ fi
 
 readonly repository_path="${1}"
 
-echo "Running cambios binary"
 if ! "${cambios_binary}" "${repository_path}"; then
     echo "error: running ${cambios_binary}"
 fi
-echo "Done running cambios binary"
 
 if [[ -f "${command_output_file}" ]]; then
     process_command_file
