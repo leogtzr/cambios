@@ -85,12 +85,12 @@ func main() {
 		fmt.Fprintln(os.Stderr, "error: parsing Git output")
 	}
 
-	statusText := fmt.Sprintf("%d modified, %d added, %d untracked, %d deleted",
-		repoStatusCounts.Modified, repoStatusCounts.Added, repoStatusCounts.Untracked, repoStatusCounts.Deleted)
+	statusText := utils.GetStatusTextLegend(&repoStatusCounts)
+
 	statusWidget := widgets.NewParagraph()
 	statusWidget.Text = statusText
 	statusWidget.TextStyle = ui.NewStyle(ui.ColorCyan, ui.ColorClear, ui.ModifierBold)
-	statusWidget.SetRect(0, 0, 50, 3)
+	statusWidget.SetRect(0, 0, len(statusText)+3, 3)
 	statusWidget.BorderStyle.Fg = ui.ColorBlack
 	statusWidget.BorderStyle.Bg = ui.ColorBlue
 	statusWidget.BorderStyle.Modifier = ui.ModifierBold

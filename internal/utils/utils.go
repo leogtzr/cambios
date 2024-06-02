@@ -3,6 +3,7 @@ package utils
 import (
 	"cambios/internal/types"
 	"errors"
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -59,4 +60,36 @@ func RepoCounts(menuItems *[]string) (types.RepositoryStatusCount, error) {
 	}
 
 	return repoStatusCounts, nil
+}
+
+func GetStatusTextLegend(repoStatusCount *types.RepositoryStatusCount) string {
+	var builder strings.Builder
+
+	if repoStatusCount.Added > 0 {
+		builder.WriteString(fmt.Sprintf("%d added", repoStatusCount.Added))
+	}
+
+	if (repoStatusCount.Deleted > 0) && (builder.Len() > 0) {
+		builder.WriteString(fmt.Sprintf(", %d deleted", repoStatusCount.Deleted))
+	} else if (repoStatusCount.Deleted > 0) && (builder.Len() == 0) {
+		builder.WriteString(fmt.Sprintf("%d deleted", repoStatusCount.Deleted))
+	}
+
+	if (repoStatusCount.Modified > 0) && (builder.Len() > 0) {
+		builder.WriteString(fmt.Sprintf(", %d modified", repoStatusCount.Modified))
+	} else if (repoStatusCount.Modified > 0) && (builder.Len() == 0) {
+		builder.WriteString(fmt.Sprintf("%d modified", repoStatusCount.Modified))
+	}
+
+	if (repoStatusCount.Untracked > 0) && (builder.Len() > 0) {
+		builder.WriteString(fmt.Sprintf(", %d untracked", repoStatusCount.Untracked))
+	} else if (repoStatusCount.Untracked > 0) && (builder.Len() == 0) {
+		builder.WriteString(fmt.Sprintf("%d untracked", repoStatusCount.Untracked))
+	}
+
+	if builder.Len() == 0 {
+		builder.WriteString("no changes")
+	}
+
+	return builder.String()
 }

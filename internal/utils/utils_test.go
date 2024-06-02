@@ -144,3 +144,38 @@ func TestGetStatusRepositoryCounts(t *testing.T) {
 		}
 	})
 }
+
+func TestGetStatusTextLegend(t *testing.T) {
+	t.Run("TestGetStatusTextLegend", func(t *testing.T) {
+		type testCase struct {
+			repoStatusCount types.RepositoryStatusCount
+			expected        string
+		}
+
+		tests := []testCase{
+			{
+				repoStatusCount: types.RepositoryStatusCount{
+					Added:     3,
+					Untracked: 2,
+				},
+				expected: "3 added, 2 untracked",
+			},
+			{
+				repoStatusCount: types.RepositoryStatusCount{},
+				expected:        "no changes",
+			},
+			{
+				repoStatusCount: types.RepositoryStatusCount{
+					Deleted: 5,
+				},
+				expected: "5 deleted",
+			},
+		}
+
+		for _, test := range tests {
+			if statusText := GetStatusTextLegend(&test.repoStatusCount); statusText != test.expected {
+				t.Errorf("got=(%s), want=(%s)", statusText, test.expected)
+			}
+		}
+	})
+}
