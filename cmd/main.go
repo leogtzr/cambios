@@ -66,6 +66,19 @@ func main() {
 		os.Exit(1)
 	}
 
+	repoStatusCounts, err := utils.RepoCounts(&menuItems)
+	if err != nil {
+		ui.Close()
+		fmt.Fprintln(os.Stderr, "error: parsing Git output")
+	}
+
+	if (repoStatusCounts.Added == 0) && (repoStatusCounts.Deleted == 0) &&
+		(repoStatusCounts.Modified == 0) && (repoStatusCounts.Renamed == 0) &&
+		(repoStatusCounts.Untracked == 0) {
+		fmt.Println("no changes in repo")
+		os.Exit(0)
+	}
+
 	if err := ui.Init(); err != nil {
 		panic(err)
 	}
@@ -78,12 +91,6 @@ func main() {
 		ui.Close()
 		os.Exit(0)
 	}()
-
-	repoStatusCounts, err := utils.RepoCounts(&menuItems)
-	if err != nil {
-		ui.Close()
-		fmt.Fprintln(os.Stderr, "error: parsing Git output")
-	}
 
 	statusText := utils.GetStatusTextLegend(&repoStatusCounts)
 
